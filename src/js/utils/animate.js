@@ -1,4 +1,4 @@
-import { getBarHeightAndYAttr, getSplineCurvePointsStr } from './draw-utils';
+import {getBarHeightAndYAttr, getCandleAttr, getSplineCurvePointsStr} from './draw-utils';
 
 export const UNIT_ANIM_DUR = 350;
 export const PATH_ANIM_DUR = 350;
@@ -59,6 +59,33 @@ export function animateBar(bar, x, yTop, width, offset=0, meta={}) {
 		return [rectAnim, groupAnim];
 	} else {
 		return [[bar, {width: width, height: height, x: x, y: y}, UNIT_ANIM_DUR, STD_EASING]];
+	}
+	// bar.animate({height: args.newHeight, y: yTop}, UNIT_ANIM_DUR, mina.easein);
+}
+
+export function animateCandle(candle, x, candleInfo, width, offset=0, meta={}) {
+	let [open, , , close, , height] = getCandleAttr(candleInfo, meta.zeroLine);
+	let y = 0;
+	if (open < close) {
+		y = open;
+	} else {
+		y = close;
+	}
+	y -= offset;
+	if(candle.nodeName !== 'g') {
+		let rect = candle.childNodes[0];
+		let rectAnim = [
+			rect,
+			{width: width, height: height},
+			UNIT_ANIM_DUR,
+			STD_EASING
+		];
+
+		let oldCoordStr = candle.getAttribute("transform").split("(")[1].slice(0, -1);
+		let groupAnim = translate(candle, oldCoordStr, [x, y], MARKER_LINE_ANIM_DUR);
+		return [rectAnim, groupAnim];
+	} else {
+		return [[candle, {width: width, height: height, x: x, y: y}, UNIT_ANIM_DUR, STD_EASING]];
 	}
 	// bar.animate({height: args.newHeight, y: yTop}, UNIT_ANIM_DUR, mina.easein);
 }

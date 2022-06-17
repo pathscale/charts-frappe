@@ -9,27 +9,34 @@ export function dataPrep(data, type) {
 	// Datasets
 	let datasets = data.datasets;
 	let zeroArray = new Array(datasetLength).fill(0);
+	let zeroCandleArray = new Array(datasetLength).fill([0, 0, 0, 0, 0]);
 	if(!datasets) {
 		// default
 		datasets = [{
-			values: zeroArray
+			values: type === 'candle' ? zeroCandleArray : zeroArray
 		}];
 	}
 
 	datasets.map(d=> {
 		// Set values
 		if(!d.values) {
-			d.values = zeroArray;
+			d.values = type === 'candle' ? zeroCandleArray : zeroArray;
 		} else {
 			// Check for non values
 			let vals = d.values;
-			vals = vals.map(val => (!isNaN(val) ? val : 0));
+			if (type === 'candle') {
+				vals = (vals || []).map(vals => (vals || []).map(val => (!isNaN(val) ? val : 0)));
+			} else {
+				vals = vals.map(val => (!isNaN(val) ? val : 0));
+			}
+
 
 			// Trim or extend
 			if(vals.length > datasetLength) {
 				vals = vals.slice(0, datasetLength);
 			} else {
-				vals = fillArray(vals, datasetLength - vals.length, 0);
+				const uintValue = type === 'candle' ? [0, 0, 0, 0, 0] : 0;
+				vals = fillArray(vals, datasetLength - vals.length, uintValue);
 			}
 			d.values = vals;
 		}
@@ -57,16 +64,17 @@ export function dataPrep(data, type) {
 	return data;
 }
 
-export function zeroDataPrep(realData) {
+export function zeroDataPrep(realData, type) {
 	let datasetLength = realData.labels.length;
 	let zeroArray = new Array(datasetLength).fill(0);
+	let zeroCandleArray = new Array(datasetLength).fill([0, 0, 0, 0, 0]);
 
 	let zeroData = {
 		labels: realData.labels.slice(0, -1),
 		datasets: realData.datasets.map(d => {
 			return {
 				name: '',
-				values: zeroArray.slice(0, -1),
+				values: type === 'candle' ? zeroCandleArray.slice(0, -1) : zeroArray.slice(0, -1),
 				chartType: d.chartType
 			};
 		}),
