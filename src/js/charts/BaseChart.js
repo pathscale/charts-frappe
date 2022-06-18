@@ -25,6 +25,7 @@ export default class BaseChart {
 
 		this.title = options.title || '';
 		this.type = options.type || '';
+		this.xUnit = options.xUnit || 1;
 
 		this.realData = this.prepareData(options.data);
 		this.data = this.prepareFirstData(this.realData);

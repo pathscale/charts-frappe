@@ -1,10 +1,10 @@
 import { fillArray } from '../utils/helpers';
 import { DEFAULT_AXIS_CHART_TYPE, AXIS_DATASET_CHART_TYPES, DEFAULT_CHAR_WIDTH } from '../utils/constants';
 
-export function dataPrep(data, type) {
+export function dataPrep(data, type, xUnit =  1) {
 	data.labels = data.labels || [];
 
-	let datasetLength = data.labels.length;
+	let datasetLength = type === 'candle' ? data.labels.length * xUnit : data.labels.length;
 
 	// Datasets
 	let datasets = data.datasets;
@@ -64,8 +64,8 @@ export function dataPrep(data, type) {
 	return data;
 }
 
-export function zeroDataPrep(realData, type) {
-	let datasetLength = realData.labels.length;
+export function zeroDataPrep(realData, type, xUnit = 1) {
+	let datasetLength = type === 'candle' ? realData.labels.length * xUnit : realData.labels.length;
 	let zeroArray = new Array(datasetLength).fill(0);
 	let zeroCandleArray = new Array(datasetLength).fill([0, 0, 0, 0, 0]);
 

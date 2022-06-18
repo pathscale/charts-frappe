@@ -1,35 +1,36 @@
 import { floatTwo } from './helpers';
 
-function normalize(x) {
+function normalize(max, min = 0) {
 	// Calculates mantissa and exponent of a number
 	// Returns normalized number and exponent
 	// https://stackoverflow.com/q/9383593/6495043
 
-	if(x===0) {
+	if(max===0) {
 		return [0, 0];
 	}
-	if(isNaN(x)) {
+	if(isNaN(max) || isNaN(max)) {
 		return {mantissa: -6755399441055744, exponent: 972};
 	}
-	var sig = x > 0 ? 1 : -1;
-	if(!isFinite(x)) {
+	var sig = max > 0 ? 1 : -1;
+	if(!isFinite(max) || !isFinite(min)) {
 		return {mantissa: sig * 4503599627370496, exponent: 972};
 	}
 
-	x = Math.abs(x);
-	var exp = Math.floor(Math.log10(x));
-	var man = x/Math.pow(10, exp);
+	max = Math.abs(max);
+	let diff = Math.abs(max - min);
+	var exp = Math.floor(Math.log10(diff));
+	var man = max/Math.pow(10, exp);
 
 	return [sig * man, exp];
 }
 
-function getChartRangeIntervals(max, min=0) {
+function getChartRangeIntervals(max, min=0, exponent = 0) {
 	let upperBound = Math.ceil(max);
 	let lowerBound = Math.floor(min);
 	let range = upperBound - lowerBound;
 
-	let noOfParts = range;
-	let partSize = 1;
+	let noOfParts = exponent > 1 ? 10 : range;
+	let partSize = range / noOfParts;
 
 	// To avoid too many partitions
 	if(range > 5) {
@@ -38,8 +39,8 @@ function getChartRangeIntervals(max, min=0) {
 			// Recalc range
 			range = upperBound - lowerBound;
 		}
-		noOfParts = range/2;
-		partSize = 2;
+		noOfParts = range/2 > 10 ? 10 : range/2;
+		partSize = range/noOfParts;
 	}
 
 	// Special case: 1 and 2
@@ -62,21 +63,21 @@ function getChartRangeIntervals(max, min=0) {
 }
 
 function getChartIntervals(maxValue, minValue=0) {
-	let [normalMaxValue, exponent] = normalize(maxValue);
+	let [normalMaxValue, exponent] = normalize(maxValue, minValue);
 	let normalMinValue = minValue ? minValue/Math.pow(10, exponent): 0;
 
 	// Allow only 7 significant digits
 	normalMaxValue = normalMaxValue.toFixed(6);
 
-	let intervals = getChartRangeIntervals(normalMaxValue, normalMinValue);
+	let intervals = getChartRangeIntervals(normalMaxValue, normalMinValue, exponent);
 	intervals = intervals.map(value => {
 		// For negative exponents we want to divide by 10^-exponent to avoid
 		// floating point arithmetic bugs. For instance, in javascript
 		// 6 * 10^-1 == 0.6000000000000001, we instead want 6 / 10^1 == 0.6
 		if (exponent < 0) {
-			return value / Math.pow(10, -exponent);
+			return (value / Math.pow(10, -exponent)).toFixed(2);
 		}
-		return value * Math.pow(10, exponent);
+		return (value * Math.pow(10, exponent)).toFixed(2);
 	});
 	return intervals;
 }
@@ -110,7 +111,7 @@ export function calcChartIntervals(values, withMinimum=false) {
 	// CASE I: Both non-negative
 
 	if(maxValue >= 0 && minValue >= 0) {
-		exponent = normalize(maxValue)[1];
+		// exponent = normalize(maxValue, minValue)[1];
 		if(!withMinimum) {
 			intervals = getChartIntervals(maxValue);
 		} else {
@@ -130,11 +131,11 @@ export function calcChartIntervals(values, withMinimum=false) {
 		let absMinValue = Math.abs(minValue);
 
 		if(maxValue >= absMinValue) {
-			exponent = normalize(maxValue)[1];
+			// exponent = normalize(maxValue, minValue)[1];
 			intervals = getPositiveFirstIntervals(maxValue, absMinValue);
 		} else {
 			// Mirror: maxValue => absMinValue, then change sign
-			exponent = normalize(absMinValue)[1];
+			// exponent = normalize(absMinValue, maxValue)[1];
 			let posIntervals = getPositiveFirstIntervals(absMinValue, maxValue);
 			intervals = posIntervals.reverse().map(d => d * (-1));
 		}
@@ -150,7 +151,7 @@ export function calcChartIntervals(values, withMinimum=false) {
 		let pseudoMaxValue = Math.abs(minValue);
 		let pseudoMinValue = Math.abs(maxValue);
 
-		exponent = normalize(pseudoMaxValue)[1];
+		// exponent = normalize(pseudoMaxValue, pseudoMinValue)[1];
 		if(!withMinimum) {
 			intervals = getChartIntervals(pseudoMaxValue);
 		} else {

@@ -48,17 +48,17 @@ export default class AxisChart extends BaseChart {
 	}
 
 	prepareData(data=this.data) {
-		return dataPrep(data, this.type);
+		return dataPrep(data, this.type, this.xUnit);
 	}
 
 	prepareFirstData(data=this.data) {
-		return zeroDataPrep(data, this.type);
+		return zeroDataPrep(data, this.type, this.xUnit);
 	}
 
 	calc(onlyWidthChange = false) {
 		this.calcXPositions();
 		if(!onlyWidthChange) {
-			this.calcYAxisParameters(this.getAllYValues(), this.type === 'line');
+			this.calcYAxisParameters(this.getAllYValues(), this.type === 'line' || this.type === 'candle');
 		}
 		this.makeDataByIndex();
 	}
@@ -67,6 +67,7 @@ export default class AxisChart extends BaseChart {
 		let s = this.state;
 		let labels = this.data.labels;
 		s.datasetLength = labels.length;
+		s.xUnit = this.xUnit;
 
 		s.unitWidth = this.width/(s.datasetLength);
 		// Default, as per bar, and mixed. Only line will be a special case
@@ -175,7 +176,7 @@ export default class AxisChart extends BaseChart {
 			});
 		}
 
-		let allValueLists = this.data.datasets.map(d => (this.type === 'candle' ? d[key].map(val => val[1]) : d[key]));//high value selected: 1
+		let allValueLists = this.data.datasets.map(d => (this.type === 'candle' ? d[key].reduce((total, val) => total.concat(val[1], val[2]), []) : d[key]));//high value selected: 1
 		if(this.data.yMarkers) {
 			allValueLists.push(this.data.yMarkers.map(d => d.value));
 		}
@@ -347,9 +348,10 @@ export default class AxisChart extends BaseChart {
 
 					let spaceRatio = this.candleOptions.spaceRatio || CANDLE_CHART_SPACE_RATIO;
 					let candlesWidth = s.unitWidth * (1 - spaceRatio);
-					let candleWidth = candlesWidth/(stacked ? 1 : candleDatasets.length);
+					let candleWidth = candlesWidth/(stacked ? 1 : candleDatasets.length * s.xUnit);
 
-					let xPositions = s.xAxis.positions.map(x => x - candlesWidth/2);
+					let getUnitXPositions = (x) => (new Array(s.xUnit).fill(0).map((val, index) => x + index * s.unitWidth/s.xUnit - candleWidth/2));
+					let xPositions = s.xAxis.positions.reduce((total, item) => (total.concat(getUnitXPositions(item))), []);
 					if(!stacked) {
 						xPositions = xPositions.map(p => p + candleWidth * index);
 					}
