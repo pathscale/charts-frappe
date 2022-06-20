@@ -135,8 +135,16 @@ export default class AxisChart extends BaseChart {
 		s.yExtremes = new Array(s.datasetLength).fill(9999);
 		s.datasets.map(d => {
 			d.yPositions.map((pos, j) => {
-				if(pos < s.yExtremes[j]) {
-					s.yExtremes[j] = pos;
+				if (d.chartType === 'candle') {
+					if (j % s.xUnit === 0) {
+						if(pos[3] < s.yExtremes[j / s.xUnit]) {
+							s.yExtremes[j / s.xUnit] = pos[3]; //close value selected
+						}
+					}
+				} else {
+					if(pos < s.yExtremes[j]) {
+						s.yExtremes[j] = pos;
+					}
 				}
 			});
 		});
@@ -196,8 +204,8 @@ export default class AxisChart extends BaseChart {
 				{
 					mode: this.config.yAxisMode,
 					width: this.width,
-					shortenNumbers: this.config.shortenYAxisNumbers
-					// pos: 'right'
+					shortenNumbers: this.config.shortenYAxisNumbers,
+					pos: 'right'
 				},
 				function() {
 					return this.state.yAxis;
@@ -420,11 +428,11 @@ export default class AxisChart extends BaseChart {
 
 		titles.map((label, index) => {
 			let values = this.state.datasets.map((set, i) => {
-				let value = set.values[index];
+				let value = set.chartType === 'candle' ? set.values[index * s.xUnit][3] : set.values[index]; //close value selected
 				return {
 					title: set.name,
 					value: value,
-					yPos: set.yPositions[index],
+					yPos: set.chartType === 'candle' ? set.yPositions[index * s.xUnit][3] : set.yPositions[index],//close value selected
 					color: this.colors[i],
 					formatted: formatY ? formatY(value) : value,
 				};

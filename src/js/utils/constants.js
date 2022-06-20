@@ -28,8 +28,8 @@ export const BASE_MEASURES = {
 	paddings: {
 		top: 20,
 		bottom: 40,
-		left: 30,
-		right: 10
+		left: 10,
+		right: 30
 	},
 
 	baseHeight: 240,

@@ -374,9 +374,9 @@ export function yLine(y, label, width, options={}) {
 	let x1 = -1 * AXIS_TICK_LENGTH;
 	let x2 = options.mode === 'span' ? width + AXIS_TICK_LENGTH : 0;
 
-	if(options.mode === 'tick' && options.pos === 'right') {
+	if(options.pos === 'right') {
 		x1 = width + AXIS_TICK_LENGTH;
-		x2 = width;
+		x2 = options.mode === 'tick' ? width + AXIS_TICK_LENGTH : 0;
 	}
 
 	// let offset = options.pos === 'left' ? -1 * options.offset : options.offset;
@@ -430,20 +430,21 @@ export function xLine(x, label, height, options={}) {
 
 export function yMarker(y, label, width, options={}) {
 	if(!options.labelPos) options.labelPos = 'right';
-	let x = options.labelPos === 'left' ? LABEL_MARGIN
-		: width - getStringWidth(label, 5) - LABEL_MARGIN;
+	let x = options.labelPos === 'left' ? LABEL_MARGIN : width + LABEL_MARGIN + AXIS_TICK_LENGTH;
+	let x1 = width + AXIS_TICK_LENGTH;
+	let x2 = options.mode === 'tick' ? width + AXIS_TICK_LENGTH : 0;
 
 	let labelSvg = createSVG('text', {
-		className: 'chart-label',
+		className: 'chart-label y-marker',
 		x: x,
 		y: 0,
-		dy: (FONT_SIZE / -2) + 'px',
+		dy: (options.labelPos === 'left' ? FONT_SIZE / -2 : FONT_SIZE / 2 - 2) + 'px',
 		'font-size': FONT_SIZE + 'px',
 		'text-anchor': 'start',
 		innerHTML: label+""
 	});
 
-	let line = makeHoriLine(y, '', 0, width, {
+	let line = makeHoriLine(y, '', x1, x2, {
 		stroke: options.stroke || BASE_LINE_COLOR,
 		className: options.className || '',
 		lineType: options.lineType
@@ -711,6 +712,22 @@ export let makeOverlay = {
 		return overlay;
 	},
 
+	'candle': (unit) => {
+		let transformValue;
+		if(unit.nodeName !== 'g') {
+			transformValue = unit.getAttribute('transform');
+			unit = unit.childNodes[0];
+		}
+		let overlay = unit.cloneNode();
+		overlay.style.fill = '#000000';
+		overlay.style.opacity = '0.4';
+
+		if(transformValue) {
+			overlay.setAttribute('transform', transformValue);
+		}
+		return overlay;
+	},
+
 	'dot': (unit) => {
 		let transformValue;
 		if(unit.nodeName !== 'circle') {
@@ -754,6 +771,24 @@ export let updateOverlay = {
 	'bar': (unit, overlay) => {
 		let transformValue;
 		if(unit.nodeName !== 'rect') {
+			transformValue = unit.getAttribute('transform');
+			unit = unit.childNodes[0];
+		}
+		let attributes = ['x', 'y', 'width', 'height'];
+		Object.values(unit.attributes)
+			.filter(attr => attributes.includes(attr.name) && attr.specified)
+			.map(attr => {
+				overlay.setAttribute(attr.name, attr.nodeValue);
+			});
+
+		if(transformValue) {
+			overlay.setAttribute('transform', transformValue);
+		}
+	},
+
+	'candle': (unit, overlay) => {
+		let transformValue;
+		if(unit.nodeName !== 'g') {
 			transformValue = unit.getAttribute('transform');
 			unit = unit.childNodes[0];
 		}
