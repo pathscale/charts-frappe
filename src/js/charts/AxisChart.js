@@ -485,6 +485,24 @@ export default class AxisChart extends BaseChart {
 		}
 	}
 
+	bindPointer() {
+		this.container.addEventListener('mousemove', (e) => {
+			document.body.style.cursor = "crosshair";
+			let o = getOffset(this.container);
+			let relX = e.pageX - o.left;
+			let relY = e.pageY - o.top;
+			this.mapPointerPosition(relX, relY);
+		});
+	}
+
+	mapPointerPosition(relX, relY) {
+		this.pointer.setValues(
+			relX,
+			relY
+		);
+		this.pointer.showPointer();
+	}
+
 	renderLegend() {
 		let s = this.data;
 		if(s.datasets.length > 1) {

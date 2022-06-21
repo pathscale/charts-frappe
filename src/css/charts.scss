@@ -117,3 +117,9 @@
 		}
 	}
 }
+
+.graph-svg-pointer {
+	position: absolute;
+	z-index: 99999;
+	background: rgba(0, 0, 0, 0);
+}
