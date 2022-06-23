@@ -58,7 +58,7 @@ export default class AxisChart extends BaseChart {
 	calc(onlyWidthChange = false) {
 		this.calcXPositions();
 		if(!onlyWidthChange) {
-			this.calcYAxisParameters(this.getAllYValues(), this.type === 'line' || this.type === 'candle');
+			this.calcYAxisParameters(this.getAllYValues(), true); //minium value  false: 0, true: minium value
 		}
 		this.makeDataByIndex();
 	}
@@ -184,7 +184,7 @@ export default class AxisChart extends BaseChart {
 			});
 		}
 
-		let allValueLists = this.data.datasets.map(d => (this.type === 'candle' ? d[key].reduce((total, val) => total.concat(val[1], val[2]), []) : d[key]));//high value selected: 1
+		let allValueLists = this.data.datasets.map(d => (d.chartType === 'candle' ? d[key].reduce((total, val) => total.concat(val[1], val[2]), []) : d[key]));//high value selected: 1
 		if(this.data.yMarkers) {
 			allValueLists.push(this.data.yMarkers.map(d => d.value));
 		}
