@@ -433,6 +433,20 @@ export function yMarker(y, label, width, options={}) {
 	let x = options.labelPos === 'left' ? LABEL_MARGIN : width + LABEL_MARGIN + AXIS_TICK_LENGTH;
 	let x1 = width + AXIS_TICK_LENGTH;
 	let x2 = options.mode === 'tick' ? width + AXIS_TICK_LENGTH : 0;
+	let labelWidth = getStringWidth(label+"00", 4.5) + LABEL_MARGIN;
+
+	let rect = createSVG('rect', {
+		className: ``, // remove class
+		styles: {
+			fill: `#26a69a`,
+			stroke: BASE_LINE_COLOR,
+			'stroke-dasharray': `${labelWidth}, ${FONT_SIZE * 2}`
+		},
+		x: x - LABEL_MARGIN,
+		y: (options.labelPos === 'left' ? -1.8 : -1) * FONT_SIZE + 'px',
+		width: labelWidth,
+		height: FONT_SIZE * 2
+	});
 
 	let labelSvg = createSVG('text', {
 		className: 'chart-label y-marker',
@@ -450,6 +464,7 @@ export function yMarker(y, label, width, options={}) {
 		lineType: options.lineType
 	});
 
+	line.appendChild(rect);
 	line.appendChild(labelSvg);
 
 	return line;

@@ -118,22 +118,40 @@ redirect_to: "https://frappe.io/charts"
     </section>
 
     <section>
+      <h6>Candle Chart</h6>
+      <div class="row">
+        <div class="col-sm-12">
+          <div id="chart-candle" class="border"></div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h6>Multi Chart</h6>
+      <div class="row">
+        <div class="col-sm-12">
+          <div id="chart-multi" class="border"></div>
+        </div>
+      </div>
+    </section>
+
+    <section>
       <h6>Listen to state change</h6>
       <div class="row">
-        <div class="col-sm-8">
+        <div class="col-sm-12">
           <div id="chart-events" class="border"></div>
         </div>
-        <div class="col-sm-4 chart-events-data">
-          <div class="image-container border">
-            <img class="moon-image" src="./assets/img/europa.jpg">
-          </div>
-          <div class="content-data margin-top">
-            <h6 class="moon-name">Europa</h6>
-            <p>Semi-major-axis: <span class="semi-major-axis">671034</span> km</p>
-            <p>Mass: <span class="mass">4800000</span>  x 10^16 kg</p>
-            <p>Diameter: <span class="diameter">3121.6</span> km</p>
-          </div>
-        </div>
+<!--        <div class="col-sm-4 chart-events-data">-->
+<!--          <div class="image-container border">-->
+<!--            <img class="moon-image" src="./assets/img/europa.jpg">-->
+<!--          </div>-->
+<!--          <div class="content-data margin-top">-->
+<!--            <h6 class="moon-name">Europa</h6>-->
+<!--            <p>Semi-major-axis: <span class="semi-major-axis">671034</span> km</p>-->
+<!--            <p>Mass: <span class="mass">4800000</span>  x 10^16 kg</p>-->
+<!--            <p>Diameter: <span class="diameter">3121.6</span> km</p>-->
+<!--          </div>-->
+<!--        </div>-->
       </div>
       <pre><code class="hljs javascript margin-top">  ...
   isNavigable: 1, // Navigate across data points; default 0
