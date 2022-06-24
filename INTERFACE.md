@@ -3,6 +3,13 @@ This is the interface for the candlestick chart
 
 ## Chart Interface
 
+**Build Result**
+
+frappe-charts.esm.js <br>
+frappe-charts.min.cjs.js <br>
+frappe-charts.min.esm.js <br>
+frappe-charts.min.umd.js
+
 **Methods**
 
     update(data: DataType)
