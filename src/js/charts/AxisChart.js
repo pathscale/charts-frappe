@@ -487,7 +487,6 @@ export default class AxisChart extends BaseChart {
 
 	bindPointer() {
 		this.container.addEventListener('mousemove', (e) => {
-			document.body.style.cursor = "crosshair";
 			let o = getOffset(this.container);
 			let relX = e.pageX - o.left;
 			let relY = e.pageY - o.top;
