@@ -159,7 +159,7 @@ const TOOLTIP_POINTER_TRIANGLE_HEIGHT = 5;
 
 const DEFAULT_CHART_COLORS = ['light-blue', 'blue', 'violet', 'red', 'orange',
 	'yellow', 'green', 'light-green', 'purple', 'magenta', 'light-grey', 'dark-grey'];
-const DEFAULT_CANDLE_COLORS = ['#26a69a', '#ef5350'];
+const DEFAULT_CANDLE_COLORS = ['#00DBA9', '#F7685B'];
 const HEATMAP_COLORS_GREEN = ['#ebedf0', '#c6e48b', '#7bc96f', '#239a3b', '#196127'];
 
 const DEFAULT_COLORS = {
@@ -556,7 +556,7 @@ const BASE_LINE_COLOR = '#dadada';
 const FONT_FILL = '#555b51';
 
 function $$1(expr, con) {
-	return typeof expr === "string"? (con || document).querySelector(expr) : expr || null;
+	return typeof expr === "string" ? (con || document).querySelector(expr) : expr || null;
 }
 
 function createSVG(tag, o) {
@@ -574,14 +574,14 @@ function createSVG(tag, o) {
 			element.appendChild(ref);
 
 		} else if (i === "styles") {
-			if(typeof val === "object") {
+			if (typeof val === "object") {
 				Object.keys(val).map(prop => {
 					element.style[prop] = val[prop];
 				});
 			}
 		} else {
-			if(i === "className") { i = "class"; }
-			if(i === "innerHTML") {
+			if (i === "className") { i = "class"; }
+			if (i === "innerHTML") {
 				element['textContent'] = val;
 			} else {
 				element.setAttribute(i, val);
@@ -627,16 +627,16 @@ function makeSVGDefs(svgContainer) {
 	});
 }
 
-function makeSVGGroup(className, transform='', parent=undefined) {
+function makeSVGGroup(className, transform = '', parent = undefined) {
 	let args = {
 		className: className,
 		transform: transform
 	};
-	if(parent) args.inside = parent;
+	if (parent) args.inside = parent;
 	return createSVG('g', args);
 }
 
-function makePath(pathStr, className='', stroke='none', fill='none', strokeWidth=2) {
+function makePath(pathStr, className = '', stroke = 'none', fill = 'none', strokeWidth = 2) {
 	return createSVG('path', {
 		className: className,
 		d: pathStr,
@@ -648,7 +648,7 @@ function makePath(pathStr, className='', stroke='none', fill='none', strokeWidth
 	});
 }
 
-function makeArcPathStr(startPosition, endPosition, center, radius, clockWise=1, largeArc=0){
+function makeArcPathStr(startPosition, endPosition, center, radius, clockWise = 1, largeArc = 0) {
 	let [arcStartX, arcStartY] = [center.x + startPosition.x, center.y + startPosition.y];
 	let [arcEndX, arcEndY] = [center.x + endPosition.x, center.y + endPosition.y];
 	return `M${center.x} ${center.y}
@@ -657,7 +657,7 @@ function makeArcPathStr(startPosition, endPosition, center, radius, clockWise=1,
 		${arcEndX} ${arcEndY} z`;
 }
 
-function makeCircleStr(startPosition, endPosition, center, radius, clockWise=1, largeArc=0){
+function makeCircleStr(startPosition, endPosition, center, radius, clockWise = 1, largeArc = 0) {
 	let [arcStartX, arcStartY] = [center.x + startPosition.x, center.y + startPosition.y];
 	let [arcEndX, midArc, arcEndY] = [center.x + endPosition.x, center.y * 2, center.y + endPosition.y];
 	return `M${center.x} ${center.y}
@@ -669,7 +669,7 @@ function makeCircleStr(startPosition, endPosition, center, radius, clockWise=1, 
 		${arcEndX} ${arcEndY} z`;
 }
 
-function makeArcStrokePathStr(startPosition, endPosition, center, radius, clockWise=1, largeArc=0){
+function makeArcStrokePathStr(startPosition, endPosition, center, radius, clockWise = 1, largeArc = 0) {
 	let [arcStartX, arcStartY] = [center.x + startPosition.x, center.y + startPosition.y];
 	let [arcEndX, arcEndY] = [center.x + endPosition.x, center.y + endPosition.y];
 
@@ -678,7 +678,7 @@ function makeArcStrokePathStr(startPosition, endPosition, center, radius, clockW
 		${arcEndX} ${arcEndY}`;
 }
 
-function makeStrokeCircleStr(startPosition, endPosition, center, radius, clockWise=1, largeArc=0){
+function makeStrokeCircleStr(startPosition, endPosition, center, radius, clockWise = 1, largeArc = 0) {
 	let [arcStartX, arcStartY] = [center.x + startPosition.x, center.y + startPosition.y];
 	let [arcEndX, midArc, arcEndY] = [center.x + endPosition.x, radius * 2 + arcStartY, center.y + startPosition.y];
 
@@ -691,10 +691,10 @@ function makeStrokeCircleStr(startPosition, endPosition, center, radius, clockWi
 }
 
 function makeGradient(svgDefElem, color, lighter = false) {
-	let gradientId ='path-fill-gradient' + '-' + color + '-' +(lighter ? 'lighter' : 'default');
+	let gradientId = 'path-fill-gradient' + '-' + color + '-' + (lighter ? 'lighter' : 'default');
 	let gradientDef = renderVerticalGradient(svgDefElem, gradientId);
 	let opacities = [1, 0.6, 0.2];
-	if(lighter) {
+	if (lighter) {
 		opacities = [0.4, 0.2, 0];
 	}
 
@@ -706,7 +706,7 @@ function makeGradient(svgDefElem, color, lighter = false) {
 }
 
 function percentageBar(x, y, width, height,
-	depth=PERCENTAGE_BAR_DEFAULT_DEPTH, fill='none') {
+	depth = PERCENTAGE_BAR_DEFAULT_DEPTH, fill = 'none') {
 
 	let args = {
 		className: 'percentage-bar',
@@ -727,7 +727,7 @@ function percentageBar(x, y, width, height,
 	return createSVG("rect", args);
 }
 
-function heatSquare(className, x, y, size, radius, fill='none', data={}) {
+function heatSquare(className, x, y, size, radius, fill = 'none', data = {}) {
 	let args = {
 		className: className,
 		x: x,
@@ -745,7 +745,7 @@ function heatSquare(className, x, y, size, radius, fill='none', data={}) {
 	return createSVG("rect", args);
 }
 
-function legendBar(x, y, size, fill='none', label, truncate=false) {
+function legendBar(x, y, size, fill = 'none', label, truncate = false) {
 	label = truncate ? truncateString(label, LABEL_MAX_CHARS) : label;
 
 	let args = {
@@ -776,7 +776,7 @@ function legendBar(x, y, size, fill='none', label, truncate=false) {
 	return group;
 }
 
-function legendDot(x, y, size, fill='none', label, truncate=false) {
+function legendDot(x, y, size, fill = 'none', label, truncate = false) {
 	label = truncate ? truncateString(label, LABEL_MAX_CHARS) : label;
 
 	let args = {
@@ -791,7 +791,7 @@ function legendDot(x, y, size, fill='none', label, truncate=false) {
 		x: 0,
 		y: 0,
 		dx: (FONT_SIZE) + 'px',
-		dy: (FONT_SIZE/3) + 'px',
+		dy: (FONT_SIZE / 3) + 'px',
 		'font-size': (FONT_SIZE * 1.2) + 'px',
 		'text-anchor': 'start',
 		fill: FONT_FILL,
@@ -824,8 +824,8 @@ function makeText(className, x, y, content, options = {}) {
 	});
 }
 
-function makeVertLine(x, label, y1, y2, options={}) {
-	if(!options.stroke) options.stroke = BASE_LINE_COLOR;
+function makeVertLine(x, label, y1, y2, options = {}) {
+	if (!options.stroke) options.stroke = BASE_LINE_COLOR;
 	let l = createSVG('line', {
 		className: 'line-vertical ' + options.className,
 		x1: 0,
@@ -847,7 +847,7 @@ function makeVertLine(x, label, y1, y2, options={}) {
 	});
 
 	let line = createSVG('g', {
-		transform: `translate(${ x }, 0)`
+		transform: `translate(${x}, 0)`
 	});
 
 	line.appendChild(l);
@@ -856,13 +856,13 @@ function makeVertLine(x, label, y1, y2, options={}) {
 	return line;
 }
 
-function makeHoriLine(y, label, x1, x2, options={}) {
-	if(!options.stroke) options.stroke = BASE_LINE_COLOR;
-	if(!options.lineType) options.lineType = '';
+function makeHoriLine(y, label, x1, x2, options = {}) {
+	if (!options.stroke) options.stroke = BASE_LINE_COLOR;
+	if (!options.lineType) options.lineType = '';
 	if (options.shortenNumbers) label = shortenLargeNumber(label);
 
 	let className = 'line-horizontal ' + options.className +
-		(options.lineType === "dashed" ? "dashed": "");
+		(options.lineType === "dashed" ? "dashed" : "");
 
 	let l = createSVG('line', {
 		className: className,
@@ -881,7 +881,7 @@ function makeHoriLine(y, label, x1, x2, options={}) {
 		dy: (FONT_SIZE / 2 - 2) + 'px',
 		'font-size': FONT_SIZE + 'px',
 		'text-anchor': x1 < x2 ? 'end' : 'start',
-		innerHTML: label+""
+		innerHTML: label + ""
 	});
 
 	let line = createSVG('g', {
@@ -889,7 +889,7 @@ function makeHoriLine(y, label, x1, x2, options={}) {
 		'stroke-opacity': 1
 	});
 
-	if(text === 0 || text === '0') {
+	if (text === 0 || text === '0') {
 		line.style.stroke = "rgba(27, 31, 35, 0.6)";
 	}
 
@@ -899,19 +899,19 @@ function makeHoriLine(y, label, x1, x2, options={}) {
 	return line;
 }
 
-function yLine(y, label, width, options={}) {
+function yLine(y, label, width, options = {}) {
 	if (!isValidNumber(y)) y = 0;
 
-	if(!options.pos) options.pos = 'left';
-	if(!options.offset) options.offset = 0;
-	if(!options.mode) options.mode = 'span';
-	if(!options.stroke) options.stroke = BASE_LINE_COLOR;
-	if(!options.className) options.className = '';
+	if (!options.pos) options.pos = 'left';
+	if (!options.offset) options.offset = 0;
+	if (!options.mode) options.mode = 'span';
+	if (!options.stroke) options.stroke = BASE_LINE_COLOR;
+	if (!options.className) options.className = '';
 
 	let x1 = -1 * AXIS_TICK_LENGTH;
 	let x2 = options.mode === 'span' ? width + AXIS_TICK_LENGTH : 0;
 
-	if(options.pos === 'right') {
+	if (options.pos === 'right') {
 		x1 = width + AXIS_TICK_LENGTH;
 		x2 = options.mode === 'tick' ? width + AXIS_TICK_LENGTH : 0;
 	}
@@ -929,14 +929,14 @@ function yLine(y, label, width, options={}) {
 	});
 }
 
-function xLine(x, label, height, options={}) {
+function xLine(x, label, height, options = {}) {
 	if (!isValidNumber(x)) x = 0;
 
-	if(!options.pos) options.pos = 'bottom';
-	if(!options.offset) options.offset = 0;
-	if(!options.mode) options.mode = 'span';
-	if(!options.stroke) options.stroke = BASE_LINE_COLOR;
-	if(!options.className) options.className = '';
+	if (!options.pos) options.pos = 'bottom';
+	if (!options.offset) options.offset = 0;
+	if (!options.mode) options.mode = 'span';
+	if (!options.stroke) options.stroke = BASE_LINE_COLOR;
+	if (!options.className) options.className = '';
 
 	// Draw X axis line in span/tick mode with optional label
 	//                        	y2(span)
@@ -952,7 +952,7 @@ function xLine(x, label, height, options={}) {
 	let y1 = height + AXIS_TICK_LENGTH;
 	let y2 = options.mode === 'span' ? -1 * AXIS_TICK_LENGTH : height;
 
-	if(options.mode === 'tick' && options.pos === 'top') {
+	if (options.mode === 'tick' && options.pos === 'top') {
 		// top axis ticks
 		y1 = -1 * AXIS_TICK_LENGTH;
 		y2 = 0;
@@ -965,12 +965,12 @@ function xLine(x, label, height, options={}) {
 	});
 }
 
-function yMarker(y, label, width, options={}) {
-	if(!options.labelPos) options.labelPos = 'right';
+function yMarker(y, label, width, options = {}) {
+	if (!options.labelPos) options.labelPos = 'right';
 	let x = options.labelPos === 'left' ? LABEL_MARGIN : width + LABEL_MARGIN + AXIS_TICK_LENGTH;
 	let x1 = width + AXIS_TICK_LENGTH;
 	let x2 = options.mode === 'tick' ? width + AXIS_TICK_LENGTH : 0;
-	let labelWidth = getStringWidth(label+"00", 4.5) + LABEL_MARGIN;
+	let labelWidth = getStringWidth(label + "00", 4.5) + LABEL_MARGIN;
 
 	let rect = createSVG('rect', {
 		className: ``, // remove class
@@ -992,7 +992,7 @@ function yMarker(y, label, width, options={}) {
 		dy: (options.labelPos === 'left' ? FONT_SIZE / -2 : FONT_SIZE / 2 - 2) + 'px',
 		'font-size': FONT_SIZE + 'px',
 		'text-anchor': 'start',
-		innerHTML: label+""
+		innerHTML: label + ""
 	});
 
 	let line = makeHoriLine(y, '', x1, x2, {
@@ -1007,7 +1007,7 @@ function yMarker(y, label, width, options={}) {
 	return line;
 }
 
-function yRegion(y1, y2, width, label, options={}) {
+function yRegion(y1, y2, width, label, options = {}) {
 	// return a group
 	let height = y1 - y2;
 
@@ -1025,9 +1025,9 @@ function yRegion(y1, y2, width, label, options={}) {
 		height: height
 	});
 
-	if(!options.labelPos) options.labelPos = 'right';
+	if (!options.labelPos) options.labelPos = 'right';
 	let x = options.labelPos === 'left' ? LABEL_MARGIN
-		: width - getStringWidth(label+"", 4.5) - LABEL_MARGIN;
+		: width - getStringWidth(label + "", 4.5) - LABEL_MARGIN;
 
 	let labelSvg = createSVG('text', {
 		className: 'chart-label',
@@ -1036,7 +1036,7 @@ function yRegion(y1, y2, width, label, options={}) {
 		dy: (FONT_SIZE / -2) + 'px',
 		'font-size': FONT_SIZE + 'px',
 		'text-anchor': 'start',
-		innerHTML: label+""
+		innerHTML: label + ""
 	});
 
 	let region = createSVG('g', {
@@ -1049,11 +1049,11 @@ function yRegion(y1, y2, width, label, options={}) {
 	return region;
 }
 
-function datasetBar(x, yTop, width, color, label='', index=0, offset=0, meta={}) {
+function datasetBar(x, yTop, width, color, label = '', index = 0, offset = 0, meta = {}) {
 	let [height, y] = getBarHeightAndYAttr(yTop, meta.zeroLine);
 	y -= offset;
 
-	if(height === 0) {
+	if (height === 0) {
 		height = meta.minHeight;
 		y -= meta.minHeight;
 	}
@@ -1076,14 +1076,14 @@ function datasetBar(x, yTop, width, color, label='', index=0, offset=0, meta={})
 
 	label += "";
 
-	if(!label && !label.length) {
+	if (!label && !label.length) {
 		return rect;
 	} else {
 		rect.setAttribute('y', 0);
 		rect.setAttribute('x', 0);
 		let text = createSVG('text', {
 			className: 'data-point-value',
-			x: width/2,
+			x: width / 2,
 			y: 0,
 			dy: (FONT_SIZE / 2 * -1) + 'px',
 			'font-size': FONT_SIZE + 'px',
@@ -1102,7 +1102,7 @@ function datasetBar(x, yTop, width, color, label='', index=0, offset=0, meta={})
 	}
 }
 
-function datasetCandle(x, candleInfo, width, color, label='', index=0, offset=0, meta={}) {
+function datasetCandle(x, candleInfo, width, color, label = '', index = 0, offset = 0, meta = {}) {
 	let [open, high, low, close, , height] = getCandleAttr(candleInfo, meta.zeroLine);
 	let y = 0;
 	if (open < close) {
@@ -1114,7 +1114,7 @@ function datasetCandle(x, candleInfo, width, color, label='', index=0, offset=0,
 	}
 	y -= offset;
 
-	if(height === 0) {
+	if (height === 0) {
 		height = meta.minHeight;
 		y -= meta.minHeight;
 	}
@@ -1131,22 +1131,26 @@ function datasetCandle(x, candleInfo, width, color, label='', index=0, offset=0,
 		x: 0,
 		y: 0,
 		width: width,
-		height: height
+		height: height,
+		rx: width / 3,
+		ry: width	/ 3,
 	});
 
 	let rect_2 = createSVG('rect', {
 		className: `candle mini`,
 		style: `fill: ${color}`,
 		'data-point-index': index,
-		x: width/2,
+		x: (width) / 2 - 1,
 		y: high - y,
-		width: 1,
-		height: low - high
+		width: 2,
+		height: low - high,
+		rx: 1,
+		ry: 1,
 	});
 
 	label += "";
 
-	if(!label && !label.length) {
+	if (!label && !label.length) {
 		let group = createSVG('g', {
 			'data-point-index': index,
 			transform: `translate(${x}, ${y})`
@@ -1159,7 +1163,7 @@ function datasetCandle(x, candleInfo, width, color, label='', index=0, offset=0,
 		rect.setAttribute('x', 0);
 		let text = createSVG('text', {
 			className: 'data-point-value',
-			x: width/2,
+			x: width / 2,
 			y: 0,
 			dy: (FONT_SIZE / 2 * -1) + 'px',
 			'font-size': FONT_SIZE + 'px',
@@ -1178,7 +1182,7 @@ function datasetCandle(x, candleInfo, width, color, label='', index=0, offset=0,
 	}
 }
 
-function datasetDot(x, y, radius, color, label='', index=0) {
+function datasetDot(x, y, radius, color, label = '', index = 0) {
 	let dot = createSVG('circle', {
 		style: `fill: ${color}`,
 		'data-point-index': index,
@@ -1189,7 +1193,7 @@ function datasetDot(x, y, radius, color, label='', index=0) {
 
 	label += "";
 
-	if(!label && !label.length) {
+	if (!label && !label.length) {
 		return dot;
 	} else {
 		dot.setAttribute('cy', 0);
@@ -1216,7 +1220,7 @@ function datasetDot(x, y, radius, color, label='', index=0) {
 	}
 }
 
-function getPaths(xList, yList, color, options={}, meta={}) {
+function getPaths(xList, yList, color, options = {}, meta = {}) {
 	let pointsList = yList.map((y, i) => (xList[i] + ',' + y));
 	let pointsStr = pointsList.join("L");
 
@@ -1224,10 +1228,10 @@ function getPaths(xList, yList, color, options={}, meta={}) {
 	if (options.spline)
 		pointsStr = getSplineCurvePointsStr(xList, yList);
 
-	let path = makePath("M"+pointsStr, 'line-graph-path', color);
+	let path = makePath("M" + pointsStr, 'line-graph-path', color);
 
 	// HeatLine
-	if(options.heatline) {
+	if (options.heatline) {
 		let gradient_id = makeGradient(meta.svgDefs, color);
 		path.style.stroke = `url(#${gradient_id})`;
 	}
@@ -1237,7 +1241,7 @@ function getPaths(xList, yList, color, options={}, meta={}) {
 	};
 
 	// Region
-	if(options.regionFill) {
+	if (options.regionFill) {
 		let gradient_id_region = makeGradient(meta.svgDefs, color, true);
 
 		let pathStr = "M" + `${xList[0]},${meta.zeroLine}L` + pointsStr + `L${xList.slice(-1)[0]},${meta.zeroLine}`;
@@ -1250,7 +1254,7 @@ function getPaths(xList, yList, color, options={}, meta={}) {
 let makeOverlay = {
 	'bar': (unit) => {
 		let transformValue;
-		if(unit.nodeName !== 'rect') {
+		if (unit.nodeName !== 'rect') {
 			transformValue = unit.getAttribute('transform');
 			unit = unit.childNodes[0];
 		}
@@ -1258,7 +1262,7 @@ let makeOverlay = {
 		overlay.style.fill = '#000000';
 		overlay.style.opacity = '0.4';
 
-		if(transformValue) {
+		if (transformValue) {
 			overlay.setAttribute('transform', transformValue);
 		}
 		return overlay;
@@ -1266,7 +1270,7 @@ let makeOverlay = {
 
 	'candle': (unit) => {
 		let transformValue;
-		if(unit.nodeName !== 'g') {
+		if (unit.nodeName !== 'g') {
 			transformValue = unit.getAttribute('transform');
 			unit = unit.childNodes[0];
 		}
@@ -1274,7 +1278,7 @@ let makeOverlay = {
 		overlay.style.fill = '#000000';
 		overlay.style.opacity = '0.4';
 
-		if(transformValue) {
+		if (transformValue) {
 			overlay.setAttribute('transform', transformValue);
 		}
 		return overlay;
@@ -1282,7 +1286,7 @@ let makeOverlay = {
 
 	'dot': (unit) => {
 		let transformValue;
-		if(unit.nodeName !== 'circle') {
+		if (unit.nodeName !== 'circle') {
 			transformValue = unit.getAttribute('transform');
 			unit = unit.childNodes[0];
 		}
@@ -1293,7 +1297,7 @@ let makeOverlay = {
 		overlay.setAttribute('fill', fill);
 		overlay.style.opacity = '0.6';
 
-		if(transformValue) {
+		if (transformValue) {
 			overlay.setAttribute('transform', transformValue);
 		}
 		return overlay;
@@ -1301,7 +1305,7 @@ let makeOverlay = {
 
 	'heat_square': (unit) => {
 		let transformValue;
-		if(unit.nodeName !== 'circle') {
+		if (unit.nodeName !== 'circle') {
 			transformValue = unit.getAttribute('transform');
 			unit = unit.childNodes[0];
 		}
@@ -1312,7 +1316,7 @@ let makeOverlay = {
 		overlay.setAttribute('fill', fill);
 		overlay.style.opacity = '0.6';
 
-		if(transformValue) {
+		if (transformValue) {
 			overlay.setAttribute('transform', transformValue);
 		}
 		return overlay;
@@ -1322,7 +1326,7 @@ let makeOverlay = {
 let updateOverlay = {
 	'bar': (unit, overlay) => {
 		let transformValue;
-		if(unit.nodeName !== 'rect') {
+		if (unit.nodeName !== 'rect') {
 			transformValue = unit.getAttribute('transform');
 			unit = unit.childNodes[0];
 		}
@@ -1333,14 +1337,14 @@ let updateOverlay = {
 				overlay.setAttribute(attr.name, attr.nodeValue);
 			});
 
-		if(transformValue) {
+		if (transformValue) {
 			overlay.setAttribute('transform', transformValue);
 		}
 	},
 
 	'candle': (unit, overlay) => {
 		let transformValue;
-		if(unit.nodeName !== 'g') {
+		if (unit.nodeName !== 'g') {
 			transformValue = unit.getAttribute('transform');
 			unit = unit.childNodes[0];
 		}
@@ -1351,14 +1355,14 @@ let updateOverlay = {
 				overlay.setAttribute(attr.name, attr.nodeValue);
 			});
 
-		if(transformValue) {
+		if (transformValue) {
 			overlay.setAttribute('transform', transformValue);
 		}
 	},
 
 	'dot': (unit, overlay) => {
 		let transformValue;
-		if(unit.nodeName !== 'circle') {
+		if (unit.nodeName !== 'circle') {
 			transformValue = unit.getAttribute('transform');
 			unit = unit.childNodes[0];
 		}
@@ -1369,14 +1373,14 @@ let updateOverlay = {
 				overlay.setAttribute(attr.name, attr.nodeValue);
 			});
 
-		if(transformValue) {
+		if (transformValue) {
 			overlay.setAttribute('transform', transformValue);
 		}
 	},
 
 	'heat_square': (unit, overlay) => {
 		let transformValue;
-		if(unit.nodeName !== 'circle') {
+		if (unit.nodeName !== 'circle') {
 			transformValue = unit.getAttribute('transform');
 			unit = unit.childNodes[0];
 		}
@@ -1387,7 +1391,7 @@ let updateOverlay = {
 				overlay.setAttribute(attr.name, attr.nodeValue);
 			});
 
-		if(transformValue) {
+		if (transformValue) {
 			overlay.setAttribute('transform', transformValue);
 		}
 	},
@@ -3035,26 +3039,26 @@ function normalize(max, min = 0) {
 	// Returns normalized number and exponent
 	// https://stackoverflow.com/q/9383593/6495043
 
-	if(max===0) {
+	if (max === 0) {
 		return [0, 0];
 	}
-	if(isNaN(max) || isNaN(max)) {
-		return {mantissa: -6755399441055744, exponent: 972};
+	if (isNaN(max) || isNaN(max)) {
+		return { mantissa: -6755399441055744, exponent: 972 };
 	}
 	var sig = max > 0 ? 1 : -1;
-	if(!isFinite(max) || !isFinite(min)) {
-		return {mantissa: sig * 4503599627370496, exponent: 972};
+	if (!isFinite(max) || !isFinite(min)) {
+		return { mantissa: sig * 4503599627370496, exponent: 972 };
 	}
 
 	max = Math.abs(max);
 	let diff = Math.abs(max - min);
 	var exp = Math.floor(Math.log10(diff));
-	var man = max/Math.pow(10, exp);
+	var man = max / Math.pow(10, exp);
 
 	return [sig * man, exp];
 }
 
-function getChartRangeIntervals(max, min=0, exponent = 0) {
+function getChartRangeIntervals(max, min = 0, exponent = 0) {
 	let upperBound = Math.ceil(max);
 	let lowerBound = Math.floor(min);
 	let range = upperBound - lowerBound;
@@ -3063,38 +3067,38 @@ function getChartRangeIntervals(max, min=0, exponent = 0) {
 	let partSize = range / noOfParts;
 
 	// To avoid too many partitions
-	if(range > 5) {
-		if(range % 2 !== 0) {
+	if (range > 5) {
+		if (range % 2 !== 0) {
 			upperBound++;
 			// Recalc range
 			range = upperBound - lowerBound;
 		}
-		noOfParts = range/2 > 10 ? 10 : range/2;
-		partSize = range/noOfParts;
+		noOfParts = range / 2 > 10 ? 10 : range / 2;
+		partSize = range / noOfParts;
 	}
 
 	// Special case: 1 and 2
-	if(range <= 2) {
+	if (range <= 2) {
 		noOfParts = 4;
-		partSize = range/noOfParts;
+		partSize = range / noOfParts;
 	}
 
 	// Special case: 0
-	if(range === 0) {
+	if (range === 0) {
 		noOfParts = 5;
 		partSize = 1;
 	}
 
 	let intervals = [];
-	for(var i = 0; i <= noOfParts; i++){
+	for (var i = 0; i <= noOfParts; i++) {
 		intervals.push(lowerBound + partSize * i);
 	}
 	return intervals;
 }
 
-function getChartIntervals(maxValue, minValue=0) {
+function getChartIntervals(maxValue, minValue = 0) {
 	let [normalMaxValue, exponent] = normalize(maxValue, minValue);
-	let normalMinValue = minValue ? minValue/Math.pow(10, exponent): 0;
+	let normalMinValue = minValue ? minValue / Math.pow(10, exponent) : 0;
 
 	// Allow only 7 significant digits
 	normalMaxValue = normalMaxValue.toFixed(6);
@@ -3112,14 +3116,14 @@ function getChartIntervals(maxValue, minValue=0) {
 	return intervals;
 }
 
-function calcChartIntervals(values, withMinimum=false) {
+function calcChartIntervals(values, withMinimum = false) {
 	//*** Where the magic happens ***
 
 	// Calculates best-fit y intervals from given values
 	// and returns the interval array
 
 	let maxValue = Math.max(...values);
-	let minValue = Math.min(...values);
+	let minValue = Math.min(...values) - Math.min(...values) * 0.1;
 
 	// Exponent to be used for pretty print
 	let intervals = []; // eslint-disable-line no-unused-vars
@@ -3131,7 +3135,7 @@ function calcChartIntervals(values, withMinimum=false) {
 
 		// Then unshift the negative values
 		let value = 0;
-		for(var i = 1; value < absMinValue; i++) {
+		for (var i = 1; value < absMinValue; i++) {
 			value += intervalSize;
 			intervals.unshift((-1) * value);
 		}
@@ -3140,9 +3144,9 @@ function calcChartIntervals(values, withMinimum=false) {
 
 	// CASE I: Both non-negative
 
-	if(maxValue >= 0 && minValue >= 0) {
+	if (maxValue >= 0 && minValue >= 0) {
 		// exponent = normalize(maxValue, minValue)[1];
-		if(!withMinimum) {
+		if (!withMinimum) {
 			intervals = getChartIntervals(maxValue);
 		} else {
 			intervals = getChartIntervals(maxValue, minValue);
@@ -3151,7 +3155,7 @@ function calcChartIntervals(values, withMinimum=false) {
 
 	// CASE II: Only minValue negative
 
-	else if(maxValue > 0 && minValue < 0) {
+	else if (maxValue > 0 && minValue < 0) {
 		// `withMinimum` irrelevant in this case,
 		// We'll be handling both sides of zero separately
 		// (both starting from zero)
@@ -3160,7 +3164,7 @@ function calcChartIntervals(values, withMinimum=false) {
 
 		let absMinValue = Math.abs(minValue);
 
-		if(maxValue >= absMinValue) {
+		if (maxValue >= absMinValue) {
 			// exponent = normalize(maxValue, minValue)[1];
 			intervals = getPositiveFirstIntervals(maxValue, absMinValue);
 		} else {
@@ -3174,7 +3178,7 @@ function calcChartIntervals(values, withMinimum=false) {
 
 	// CASE III: Both non-positive
 
-	else if(maxValue <= 0 && minValue <= 0) {
+	else if (maxValue <= 0 && minValue <= 0) {
 		// Mirrored Case I:
 		// Work with positives, then reverse the sign and array
 
@@ -3182,7 +3186,7 @@ function calcChartIntervals(values, withMinimum=false) {
 		let pseudoMinValue = Math.abs(maxValue);
 
 		// exponent = normalize(pseudoMaxValue, pseudoMinValue)[1];
-		if(!withMinimum) {
+		if (!withMinimum) {
 			intervals = getChartIntervals(pseudoMaxValue);
 		} else {
 			intervals = getChartIntervals(pseudoMaxValue, pseudoMinValue);
@@ -3197,11 +3201,11 @@ function calcChartIntervals(values, withMinimum=false) {
 function getZeroIndex(yPts) {
 	let zeroIndex;
 	let interval = getIntervalSize(yPts);
-	if(yPts.indexOf(0) >= 0) {
+	if (yPts.indexOf(0) >= 0) {
 		// the range has a given zero
 		// zero-line on the chart
 		zeroIndex = yPts.indexOf(0);
-	} else if(yPts[0] > 0) {
+	} else if (yPts[0] > 0) {
 		// Minimum value is positive
 		// zero-line is off the chart: below
 		let min = yPts[0];
@@ -3220,7 +3224,7 @@ function getIntervalSize(orderedArray) {
 }
 
 function getValueRange(orderedArray) {
-	return orderedArray[orderedArray.length-1] - orderedArray[0];
+	return orderedArray[orderedArray.length - 1] - orderedArray[0];
 }
 
 function scale(val, yAxis) {
@@ -3228,7 +3232,7 @@ function scale(val, yAxis) {
 }
 
 function getClosestInArray(goal, arr, index = false) {
-	let closest = arr.reduce(function(prev, curr) {
+	let closest = arr.reduce(function (prev, curr) {
 		return (Math.abs(curr - goal) < Math.abs(prev - goal) ? curr : prev);
 	}, []);
 
@@ -3244,7 +3248,7 @@ function calcDistribution(values, distributionSize) {
 	let distributionStep = 1 / (distributionSize - 1);
 	let distribution = [];
 
-	for(var i = 0; i < distributionSize; i++) {
+	for (var i = 0; i < distributionSize; i++) {
 		let checkpoint = dataMaxValue * (distributionStep * i);
 		distribution.push(checkpoint);
 	}
