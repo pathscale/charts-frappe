@@ -342,7 +342,7 @@ export default class AxisChart extends BaseChart {
 				'candleGraph' + '-' + d.index,
 				{
 					index: index,
-					color: this.colors[index],
+					color: this.colors,
 					stacked: this.candleOptions.stacked,
 
 					// same for all datasets

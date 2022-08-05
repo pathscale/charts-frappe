@@ -1,6 +1,6 @@
 import { getBarHeightAndYAttr, getCandleAttr, truncateString, shortenLargeNumber, getSplineCurvePointsStr } from './draw-utils';
 import { getStringWidth, isValidNumber } from './helpers';
-import { DOT_OVERLAY_SIZE_INCR, PERCENTAGE_BAR_DEFAULT_DEPTH, DEFAULT_COLORS } from './constants';
+import { DOT_OVERLAY_SIZE_INCR, PERCENTAGE_BAR_DEFAULT_DEPTH } from './constants';
 import { lightenDarkenColor } from './colors';
 
 export const AXIS_TICK_LENGTH = 6;
@@ -570,10 +570,10 @@ export function datasetCandle(x, candleInfo, width, color, label = '', index = 0
 	let y = 0;
 	if (open < close) {
 		y = open;
-		color = DEFAULT_COLORS.candle[1];
+		color = color[1];
 	} else {
 		y = close;
-		color = DEFAULT_COLORS.candle[0];
+		color = color[0];
 	}
 	y -= offset;
 
@@ -596,7 +596,7 @@ export function datasetCandle(x, candleInfo, width, color, label = '', index = 0
 		width: width,
 		height: height,
 		rx: width / 3,
-		ry: width	/ 3,
+		ry: width / 3,
 	});
 
 	let rect_2 = createSVG('rect', {
