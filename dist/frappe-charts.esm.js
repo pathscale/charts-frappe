@@ -159,7 +159,7 @@ const TOOLTIP_POINTER_TRIANGLE_HEIGHT = 5;
 
 const DEFAULT_CHART_COLORS = ['light-blue', 'blue', 'violet', 'red', 'orange',
 	'yellow', 'green', 'light-green', 'purple', 'magenta', 'light-grey', 'dark-grey'];
-const DEFAULT_CANDLE_COLORS = ['#00DBA9', '#F7685B'];
+const DEFAULT_CANDLE_COLORS = ['#26a69a', '#ef5350'];
 const HEATMAP_COLORS_GREEN = ['#ebedf0', '#c6e48b', '#7bc96f', '#239a3b', '#196127'];
 
 const DEFAULT_COLORS = {
@@ -2729,9 +2729,6 @@ let componentConfigs = {
 		layerClass: function () { return 'dataset-units dataset-candles dataset-' + this.constants.index; },
 		makeElements(data) {
 			let c = this.constants;
-
-
-			console.log("here", this);
 			this.unitType = 'candle';
 			this.units = data.yPositions.map((candle, j) => {
 				return datasetCandle(
@@ -4093,8 +4090,6 @@ class AxisChart extends BaseChart {
 		this.components = new Map(componentConfigs
 			.filter(args => !optionals.includes(args[0]) || this.state[args[0]])
 			.map(args => {
-
-				console.log('args', args);
 				let component = getComponent(...args);
 				if(args[0].includes('lineGraph') || args[0].includes('barGraph') || args[0].includes('candleGraph')) {
 					this.dataUnitComponents.push(component);
